@@ -18,24 +18,53 @@
         </div>
 
       </div>
-      <div class="support-count" v-if="seller.supports">
+      <div class="support-count" v-if="seller.supports" @click="detailShow = true">
         <span class="count">{{ seller.supports.length }}</span>
         <i class="icon-keyboard_arrow_right"></i>
       </div>
     </div>
-    <div class="bulletin-wrapper"></div>
+    <div class="bulletin-wrapper" @click="detailShow = true">
+      <span class="bulletin-title"></span><span class="bulletin-text">{{ seller.bulletin }}</span>
+      <i class="icon-keyboard_arrow_right"></i>
+    </div>
+    <div class="background">
+      <img :src="seller.avatar" width="100%" height="100%">
+    </div>
+
+    <div class="detail" v-show="detailShow">
+      <div class="detail-wrapper clearfix">
+        <div class="detail-main">
+          <h1 class="name">{{ seller.name }}</h1>
+          <div class="star-wrapper">
+            <star :size="48" :score="seller.score" class="star"></star>
+          </div>
+        </div>
+      </div>
+      <div class="detail-close">
+        <i class="icon-close"></i>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
+  import Star from '../star/star.vue'
   export default {
     props: {
       seller: {
         type: Object
       }
     },
+    data () {
+      return {
+        detailShow: true
+      }
+    },
     created () {
       this.classMap = ['decrease', 'discount', 'guarantee', 'invoice', 'special']
+    },
+    components: {
+      Star
     }
   }
 </script>
@@ -43,8 +72,10 @@
 <style lang="stylus" rel="stylesheet/stylus">
   @import "../../common/stylus/mixin.styl"
   .header
+    position relative
     color #fff
-    background: #999
+    background rgba(7,17,27,0.5)
+    overflow hidden
     .content-wrapper
       position relative
       padding:24px 12px 18px 24px
@@ -119,4 +150,71 @@
           line-height 24px
           margin-left 2px
 
+    .bulletin-wrapper
+      position relative
+      height:28px
+      line-height 28px
+      padding-left 12px
+      padding-right 22px
+      background-color rgba(7,17,27,0.2)
+      white-space nowrap
+      overflow hidden
+      text-overflow ellipsis
+      .bulletin-title
+        display inline-block
+        margin-top 8px
+        vertical-align :top
+        width 22px
+        height 12px
+        bg-image('bulletin')
+        background-size 22px 12px
+        background-repeat no-repeat
+      .bulletin-text
+        font-size 10px
+        margin: 0 10px
+      .icon-keyboard_arrow_right
+        position absolute
+        font-size 10px
+        right 12px
+        top: 8px
+
+    .background
+      position absolute
+      z-index -1
+      top 0
+      left 0
+      height 100%
+      width 100%
+      filter: blur(10px)
+    .detail
+      position fixed
+      top 0
+      left 0
+      z-index 100
+      width 100%
+      height 100%
+      overflow auto
+      background rgba(7,17,27,0.5)
+      .detail-wrapper
+        min-height 100%
+        width 100%
+        .detail-main
+          margin-top 64px
+          padding-bottom 64px
+          .name
+            line-height 16px
+            text-align center
+            font-size 16px
+            font-weight 700
+          .star-wrapper
+            margin-top 18px
+            padding 2px 0
+            text-align center
+      .detail-close
+        position relative
+        width 32px
+        height 32px
+        margin -64px auto 0
+        clear both
+        font-size 24px
 </style>
