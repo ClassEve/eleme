@@ -33,11 +33,13 @@
           </li>
         </ul>
       </div>
+      <shopcart :delivery-price="seller.deliveryPrice" :min-price="seller.minPrice"></shopcart>
     </div>
 </template>
 
 <script>
   import BScroll from 'better-scroll'
+  import Shopcart from '../shopcart/shopcart.vue'
   const ERR_OK = 0
 
   export default {
@@ -53,6 +55,9 @@
         listHeight: [],
         classMap: ['decrease', 'discount', 'guarantee', 'invoice', 'special']
       }
+    },
+    components: {
+      Shopcart
     },
     created () {
       this.$http.get('/api/goods').then(res => {
