@@ -27,6 +27,9 @@
                   <div class="price">
                     <span class="now">￥{{ food.price }}</span><span class="old" v-show="food.oldPrice">￥{{ food.oldPrice }}</span>
                   </div>
+                  <div class="cartcontrol-wrapper">
+                    <cartControl :food="food"></cartControl>
+                  </div>
                 </div>
               </li>
             </ul>
@@ -40,6 +43,7 @@
 <script>
   import BScroll from 'better-scroll'
   import Shopcart from '../shopcart/shopcart.vue'
+  import CartControl from '../cartcontrol/cartcontrol.vue'
   const ERR_OK = 0
 
   export default {
@@ -57,7 +61,8 @@
       }
     },
     components: {
-      Shopcart
+      Shopcart,
+      CartControl
     },
     created () {
       this.$http.get('/api/goods').then(res => {
@@ -108,6 +113,7 @@
         })
 
         this.foodsScroll = new BScroll(this.$refs.foodsWrapper, {
+          click: true,
           probeType: 3
         })
 
@@ -221,4 +227,8 @@
               font-size 10px
               color rgb(147,153,159)
 
+          .cartcontrol-wrapper
+            position absolute
+            right 0
+            bottom 12px
 </style>
