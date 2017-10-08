@@ -34,10 +34,6 @@
         type: Number,
         default: ALL
       },
-      onlyContent: {
-        type: Boolean,
-        default: false
-      },
       desc: {
         type: Object,
         default () {
@@ -47,6 +43,11 @@
             negative: '不满意'
           }
         }
+      }
+    },
+    data () {
+      return {
+        onlyContent: false
       }
     },
     computed: {
@@ -66,13 +67,14 @@
         if (!event._constructed) {
           return
         }
-        this.selectType = type
+        this.$emit('select', type)
       },
       toggleContent (event) {
         if (!event._constructed) {
           return
         }
         this.onlyContent = !this.onlyContent
+        this.$emit('toggleContent', this.onlyContent)
       }
     }
   }
