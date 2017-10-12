@@ -12,25 +12,29 @@
         <router-link to="/seller">商家</router-link>
       </div>
     </div>
-
-    <router-view :seller="seller"></router-view>
+    <keep-alive>
+      <router-view :seller="seller"></router-view>
+    </keep-alive>
   </div>
 </template>
 
 <script>
 import Head from './components/header/header'
+
 const ERR_OK = 0
 export default {
   data () {
     return {
-      seller: {}
+      seller: {
+        id: 123
+      }
     }
   },
   created () {
     this.$http.get('/api/seller')
       .then(res => {
         if (res.data.errno === ERR_OK) {
-          this.seller = res.data.data
+          this.seller = Object.assign({}, this.seller, res.data.data)
         }
       })
   },
